@@ -2,6 +2,8 @@
 
 The **First Pass Yield (FPY) Report** offers a detailed view of manufacturing efficiency by quantifying the percentage of units that successfully pass quality inspection or testing on the first attempt, without requiring rework or reprocessing. This report helps identify areas of improvement, monitor quality trends over time, and support decision-making to enhance overall production performance.
 
+![FPY Report](https://raw.githubusercontent.com/louisehealey/FirstPassYield/main/FirstPassYieldReport.png)
+
 ## 🧮 The Data Model
 
 
@@ -25,7 +27,10 @@ FPYbyDate =
 RETURN
 IF(TotalJC = 0, BLANK(), DIVIDE(TotalPASS, TotalJC))
  ``` 
-ADD PHOTO
+<p align="center">
+  <img src="https://raw.githubusercontent.com/louisehealey/FirstPassYield/main/FPYLineChart.gif" width="500">
+</p>
+
 
 ---
 

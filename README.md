@@ -5,7 +5,7 @@ The **First Pass Yield (FPY) Report** offers a detailed view of manufacturing ef
 ![FPY Report](https://raw.githubusercontent.com/louisehealey/FirstPassYield/main/FirstPassYieldReport.png)
 
 ## 🧮 The Data Model
-
+![FPY Report](https://raw.githubusercontent.com/louisehealey/FirstPassYield/main/FPY_Data_Model.png)
 
 
 ## 🧮 Calculating the First Pass Yield- By Date (Measure)

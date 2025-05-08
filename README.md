@@ -5,6 +5,29 @@ The **First Pass Yield (FPY) Report** offers a detailed view of manufacturing ef
 ![FPY Report](https://raw.githubusercontent.com/louisehealey/FirstPassYield/main/FirstPassYieldReport.png)
 
 ## 🧮 The Data Model
+
+# **Data Structure:** 
+ This table follows a **Star Schema** design, a central fact table that connects to multiple dimension tables through key relationships.
+
+**Fact Tables (Transactional Data)**
+These tables store measurable events and operational data.
+
+- **JOBS_CLOSED** – Records completed production jobs.  
+  - **Key Field:** `part_number`
+- **FAIL_LOG** – Tracks inspection failures.  
+  - **Key Field:** `part_number`
+  - 
+**Dimension Tables (Descriptive Attributes)**
+These tables provide contextual information for analysis.
+
+- **ITEM_MASTER** – Stores part metadata (commodity type, description, cost).  
+  - **Key Field:** `part_number`
+- **STOCK_STATUS** – Contains inventory details (on-hand quantity, stock location).  
+  - **Key Field:** `part_number`
+- **Calendar** – Provides date hierarchy for time-based analysis.  
+  - **Key Field:** `inspection_date`
+
+
 ![FPY Report](https://raw.githubusercontent.com/louisehealey/FirstPassYield/main/FPY_Data_Model.png)
 
 

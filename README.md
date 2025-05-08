@@ -28,7 +28,7 @@ RETURN
 IF(TotalJC = 0, BLANK(), DIVIDE(TotalPASS, TotalJC))
  ``` 
 <p align="center">
-  <img src="https://raw.githubusercontent.com/louisehealey/FirstPassYield/main/FPYLineChart.gif" width="500">
+  <img src="https://raw.githubusercontent.com/louisehealey/FirstPassYield/main/FirstPassYield.gif">
 </p>
 
 

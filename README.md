@@ -1,32 +1,37 @@
 # First Pass Yield Report
 
-The **First Pass Yield (FPY) Report** offers a detailed view of manufacturing efficiency by quantifying the percentage of units that successfully pass quality inspection or testing on the first attempt, without requiring rework or reprocessing. This report helps identify areas of improvement, monitor quality trends over time, and support decision-making to enhance overall production performance.
+The **First Pass Yield (FPY) Report** offers a detailed view of manufacturing efficiency by quantifying the percentage of units that successfully pass quality inspection or testing on the first attempt, without requiring rework. This report helps identify areas of improvement, monitor quality trends over time, and support decision-making to enhance overall production performance.
 
 ![FPY Report](https://raw.githubusercontent.com/louisehealey/FirstPassYield/main/FirstPassYieldReport.png)
 
 ## 🧮 The Data Model
 
-# **Data Structure:** 
- This table follows a **Star Schema** design, a central fact table that connects to multiple dimension tables through key relationships.
+**Data Structure:** 
+This data model follows a **star schema**, where multiple **fact tables** connect to several **dimension tables** through key relationships. The primary relationship type used is **One-to-Many (1:n)** to ensure efficient data structuring and aggregation. All relationships are configured with **single-directional filtering** to avoid ambiguity in filtering logic.
+
 
 **Fact Tables (Transactional Data)**
-These tables store measurable events and operational data.
+These tables store transactional and operational data, serving as the foundation for analysis.
 
-- **JOBS_CLOSED** – Records completed production jobs.  
+- **JOBS_CLOSED** – Logs details of completed production jobs and units.  
   - **Key Field:** `part_number`
-- **FAIL_LOG** – Tracks inspection failures.  
+- **FAIL_LOG** – Captures inspection failures, tracking defect occurrences and related metrics.  
   - **Key Field:** `part_number`
-  - 
+
 **Dimension Tables (Descriptive Attributes)**
-These tables provide contextual information for analysis.
+These tables provide contextual information that enriches analysis and reporting.
 
-- **ITEM_MASTER** – Stores part metadata (commodity type, description, cost).  
+- **ITEM_MASTER** – Contains metadata about parts, such as commodity type, description, and standard  unit cost.  
   - **Key Field:** `part_number`
-- **STOCK_STATUS** – Contains inventory details (on-hand quantity, stock location).  
+- **STOCK_STATUS** – Stores inventory levels, on-hand quantities, stock locations, and safety stock thresholds.  
   - **Key Field:** `part_number`
-- **Calendar** – Provides date hierarchy for time-based analysis.  
+- **Calendar** – Acts as the date dimension, enabling time-based analysis across various fact tables.  
   - **Key Field:** `inspection_date`
 
+**Schema Design Highlights**
+- **Optimized Relationships:**  
+  - `part_number` serves as the primary link between ITEM_MASTER and transactional tables.  
+  - `inspection_date` connects Calendar to JOBS_CLOSED for trend analysis.  
 
 ![FPY Report](https://raw.githubusercontent.com/louisehealey/FirstPassYield/main/FPY_Data_Model.png)
 
@@ -57,19 +62,7 @@ IF(TotalJC = 0, BLANK(), DIVIDE(TotalPASS, TotalJC))
 
 ---
 
-## 🧮 Calculating the First Pass Yield- By Part (Measure)
+## 🧮 Total Cost of Failed Units- Matrix
 
-This measure follows the same logic as **FPYbyDate** but excludes the **TREATAS** function since both **JOBS_CLOSED** and **FAIL_LOG** are directly related to the **PARTMASTER** table. This ensures accurate FPY calculations while leveraging existing relationships in the data model
- ``` 
-FPYbyPart =
-VAR TotalJC = CALCULATE(SUM('JOBS_CLOSED'[quantity]))
-VAR TotalFAIL=CALCULATE(SUM('FAIL_LOG'[quantity]))
-VAR TotalPASS= TotalJC-TotalFAIL
-RETURN
-IF(
-    TotalJC=0,BLANK(), TotalPASS/TotalJC)
- ``` 
-REPLACE PHOTO
 ---
-
-
+## 🧮 Card Visuals and their measures

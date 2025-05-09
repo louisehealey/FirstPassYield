@@ -4,7 +4,7 @@ The **First Pass Yield (FPY) Report** offers a detailed view of manufacturing ef
 
 ![FPY Report](https://raw.githubusercontent.com/louisehealey/FirstPassYield/main/FirstPassYieldReport.png)
 
-## 🧮 The Data Model
+## 🛠️ The Data Model
 
 **Data Structure:** 
 This data model follows a **star schema**, where multiple **fact tables** connect to several **dimension tables** through key relationships. The primary relationship type used is **One-to-Many (1:n)** to ensure efficient data structuring and aggregation. All relationships are configured with **single-directional filtering** to avoid ambiguity in filtering logic.
@@ -36,7 +36,7 @@ These tables provide contextual information that enriches analysis and reporting
 ![FPY Report](https://raw.githubusercontent.com/louisehealey/FirstPassYield/main/FPY_Data_Model.png)
 
 
-## 🧮 Calculating the First Pass Yield- By Date (Measure)
+## 📈 Calculating the First Pass Yield- By Date (Measure)
 **(Total Units-Total Unit Failed)/Total Units = First Pass Yield**
 
 This measure tracks FPY on a Month-over-Month basis by aligning **inspection dates** with **calendar dates** using the function **TREATAS**. Since there's no direct relationship between the `FAIL_LOG` and `Calendar` tables, `TREATAS` enables proper data mapping while preserving the **star schema** structure of the model.

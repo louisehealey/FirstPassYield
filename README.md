@@ -59,10 +59,15 @@ IF(TotalJC = 0, BLANK(), DIVIDE(TotalPASS, TotalJC))
   <img src="https://raw.githubusercontent.com/louisehealey/FirstPassYield/main/FirstPassYield.gif">
 </p>
 
-
 ---
 
 ## 🧮 Total Cost of Failed Units- Matrix
+
+This Matrix estimates the **total cost of failed units** by part on a **Month-to-Month** basis.  
+By multiplying the **standard unit cost** by the **total failed units**, it provides a financial impact assessment of quality failures, helping identify trends and areas for improvement.
+
+
+
 
 ---
 ## 🧮 Card Visuals and their measures

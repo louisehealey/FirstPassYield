@@ -64,10 +64,47 @@ IF(TotalJC = 0, BLANK(), DIVIDE(TotalPASS, TotalJC))
 ## 🧮 Total Cost of Failed Units- Matrix
 
 This Matrix estimates the **total cost of failed units** by part on a **Month-to-Month** basis.  
-By multiplying the **standard unit cost** by the **total failed units**, it provides a financial impact assessment of quality failures, helping identify trends and areas for improvement.
+By multiplying the **standard unit cost** by the **total failed units**, the measure provides a financial impact assessment of quality failures.
+```
+TotalSpend(FailedUnits) =
 
+VAR TotalFAIL =
+    CALCULATE(
+        SUM('FAIL_LOG'[quantity]),
+        TREATAS(VALUES('Calendar'[Date]), 'FAIL_LOG'[inspection_date]))
+VAR STD_UD= MAX(ITEM_MASTER[standrd_unit_cost])
+RETURN
+IF(
+    ISBLANK(TotalFAIL*STD_UD),0,TotalFAIL*STD_UD)
 
-
+```
+![FPY Report](https://raw.githubusercontent.com/louisehealey/FirstPassYield/main/TotalFailedCostMatrix.png)
 
 ---
-## 🧮 Card Visuals and their measures
+## 🧮 Other Key Measures
+
+Total Failed Units
+
+This measure calculates the **total failed units** while ensuring missing values are handled correctly using `IF(ISBLANK())`. The `TREATAS` function allows the measure to align **inspection dates** with **calendar dates**, enabling accurate aggregation without requiring direct relationships between tables.
+
+```
+TotalFail =
+VAR TotalFAIL =
+    CALCULATE(
+        SUM('FAIL_LOG'[quantity]),
+        TREATAS(VALUES('Calendar'[Date]), 'FAIL_LOG'[inspection_date]))
+RETURN
+IF(
+  ISBLANK(TotalFAIL), 0, TotalFAIL)
+```
+The same logic is applied when calculating the **total units** produced.
+```
+TotalJobs =
+VAR TotalJC =
+    CALCULATE(
+        SUM(JOBS_CLOSED[quantity]),
+        TREATAS(VALUES('Calendar'[Date]), JOBS_CLOSED[inspection_date])
+RETURN 
+IF(
+  ISBLANK(TotalJC ), 0, TotalJC )
+```

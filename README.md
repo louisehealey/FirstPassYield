@@ -41,19 +41,20 @@ These tables provide contextual information that enriches analysis and reporting
 
 This measure tracks FPY on a Month-over-Month basis by aligning **inspection dates** with **calendar dates** using the function **TREATAS**. Since there's no direct relationship between the `FAIL_LOG` and `Calendar` tables, `TREATAS` enables proper data mapping while preserving the **star schema** structure of the model.
 ``` 
-RevenuePerformanceMeasure =
 FPYbyDate =
   VAR TotalJC =
       CALCULATE(
-          SUM(JOBS_CLOSED[quantity]),
-          TREATAS(VALUES('Calendar'[Date]), JOBS_CLOSED[inspection_date]) )
+          SUM(JOBS_CLOSED[quantity])) 
+
   VAR TotalFAIL =
       CALCULATE(
           SUM('FAIL_LOG'[quantity]),
-          TREATAS(VALUES('Calendar'[Date]), 'FAIL_LOG'[inspection_date]))
+          TREATAS(VALUES('Calendar'[Date]), 'FAIL_LOG'[inspection_date])
+
   VAR TotalPASS = TotalJC - TotalFAIL
 RETURN
 IF(TotalJC = 0, BLANK(), DIVIDE(TotalPASS, TotalJC))
+
  ``` 
 <p align="center">
   <img src="https://raw.githubusercontent.com/louisehealey/FirstPassYield/main/FirstPassYield.gif">
@@ -61,7 +62,7 @@ IF(TotalJC = 0, BLANK(), DIVIDE(TotalPASS, TotalJC))
 
 ---
 
-## 🧮 Total Cost of Failed Units- Matrix
+## 🚨Total Cost of Failed Units- Matrix
 
 This Matrix estimates the **total cost of failed units** by part on a **Month-to-Month** basis.  
 By multiplying the **standard unit cost** by the **total failed units**, the measure provides a financial impact assessment of quality failures.
@@ -81,7 +82,7 @@ IF(
 ![FPY Report](https://raw.githubusercontent.com/louisehealey/FirstPassYield/main/TotalFailedCostMatrix.png)
 
 ---
-## 🧮 Other Key Measures
+## 🔑 Other Key Measures
 
 Total Failed Units
 
@@ -97,13 +98,12 @@ RETURN
 IF(
   ISBLANK(TotalFAIL), 0, TotalFAIL)
 ```
-The same logic is applied when calculating the **total units** produced.
+The same logic is applied when calculating the **total units** produced. However, since there is a relationship between the **JOBS_CLOSED** and **Calendar** the `TREATAS` function
 ```
 TotalJobs =
-VAR TotalJC =
-    CALCULATE(
-        SUM(JOBS_CLOSED[quantity]),
-        TREATAS(VALUES('Calendar'[Date]), JOBS_CLOSED[inspection_date])
+  VAR TotalJC =
+      CALCULATE(
+          SUM(JOBS_CLOSED[quantity])) 
 RETURN 
 IF(
   ISBLANK(TotalJC ), 0, TotalJC )

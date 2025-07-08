@@ -13,19 +13,19 @@ This data model follows a **star schema**, where multiple **fact tables** connec
 **Fact Tables (Transactional Data)**
 These tables store transactional and operational data, serving as the foundation for analysis.
 
-- **JOBS_CLOSED** – Logs details of completed production jobs and units.  
+- **JOBS_CLOSED**: Logs details of completed production jobs and units.  
   - **Key Field:** `part_number`
-- **FAIL_LOG** – Captures inspection failures, tracking defect occurrences and related metrics.  
+- **FAIL_LOG**: Captures inspection failures, tracking defect occurrences and related metrics.  
   - **Key Field:** `part_number`
 
 **Dimension Tables (Descriptive Attributes)**
 These tables provide contextual information that enriches analysis and reporting.
 
-- **ITEM_MASTER** – Contains metadata about parts, such as commodity type, description, and standard  unit cost.  
+- **ITEM_MASTER**: Contains metadata about parts, such as commodity type, description, and standard  unit cost.  
   - **Key Field:** `part_number`
-- **STOCK_STATUS** – Stores inventory levels, on-hand quantities, stock locations, and safety stock thresholds.  
+- **STOCK_STATUS**: Stores inventory levels, on-hand quantities, stock locations, and safety stock thresholds.  
   - **Key Field:** `part_number`
-- **Calendar** – Acts as the date dimension, enabling time-based analysis across various fact tables.  
+- **Calendar**: Acts as the date dimension, enabling time-based analysis across various fact tables.  
   - **Key Field:** `inspection_date`
 
 **Schema Design Highlights**
@@ -91,11 +91,13 @@ This measure calculates the **total failed units** while ensuring missing values
 
 ```
 TotalFail =
+
 VAR TotalFAIL =
     CALCULATE(
         SUM('FAIL_LOG'[quantity]),
         TREATAS(VALUES('Calendar'[Date]), 'FAIL_LOG'[inspection_date]))
 RETURN
+
 IF(
   ISBLANK(TotalFAIL), 0, TotalFAIL)
 ```
